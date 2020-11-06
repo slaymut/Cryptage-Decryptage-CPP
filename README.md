@@ -9,3 +9,5 @@ I'm using CLION, tell me if you want me to add the cmake, and its build on githu
 # Class Sommet and ArbreB
 
 Started writing both Sommet and ArbreB classes. Added constructors (You can add more if you think necessary) and some fonctions. I'd say Half done. To be continued !!!!
+
+Added Insert method in the ArbreB class. It inserts a node in the tree. More explanation will come soon !

@@ -7,6 +7,7 @@ template <class Type>
 class c_ArbreB{
 private:
     c_Sommet<Type> * root;
+    void insert(c_Sommet<Type> *Noodle);
 
 public:
     //Constructors
@@ -15,7 +16,7 @@ public:
 
     c_Sommet<Type>* getRoot(){return root;}
     c_Sommet<Type>* search();
-    void insert(Type value);//not sure how we'll use this one yet
+    void create(Type value);
 
     //Destructor
     ~c_ArbreB(){
