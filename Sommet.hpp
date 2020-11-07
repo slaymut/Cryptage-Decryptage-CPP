@@ -39,6 +39,7 @@ public:
     c_Sommet <Type> *right;
     virtual c_Sommet <Type> &get_left() const {return *left;};
     virtual c_Sommet <Type> &get_right() const {return *right;};
+    
     //Destructor
     ~c_Sommet(){
         delete left; delete right;
