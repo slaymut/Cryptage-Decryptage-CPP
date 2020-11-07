@@ -4,7 +4,7 @@ template<class Type>
 c_Sommet<Type> *c_ArbreB<Type>::search() {
     //Will complete later.
 }
-
+//Creates a binary tree
 template<class Type>
 void c_ArbreB<Type>::create(Type value){
     //Will complete later.
@@ -12,11 +12,11 @@ void c_ArbreB<Type>::create(Type value){
 
 //Inserts a node in the tree.
 template<class Type>
-void c_ArbreB<Type>::insert(c_Sommet<Type> *noodle){
-    if(!noodle) return;
+void c_ArbreB<Type>::insert(c_Sommet<Type> *node){
+    if(!node) return;
 
     if(root == nullptr){
-        root = noodle;
+        root = node;
         return;
     }
 
@@ -25,16 +25,27 @@ void c_ArbreB<Type>::insert(c_Sommet<Type> *noodle){
 
     while(current){
         previous = current;
-        if(noodle->valueSommet < current->valueSommet)
+        if(node->valueSommet < current->valueSommet)
             current = current->left;
         else
             current = current->right;
     }
 
-    if(noodle->valeur < previous->valeur)
-        previous->gauche = noodle;
+    if(node->valeur < previous->valeur)
+        previous->left = node;
     else
-        previous->droite = noodle;
+        previous->right = node;
+}
+
+//Deletes a node in the tree.
+template<class Type>
+void c_ArbreB<Type>::m_delete(c_Sommet<Type> *node){
+    if (node==nullptr) return;
+
+    m_delete(node->right);
+    m_delete(node->left);
+    
+    delete node;
 }
 
 //UwU
