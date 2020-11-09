@@ -51,7 +51,6 @@ public:
         {
             delete children[0];
         }
-
         if(children[1])
         {
             delete children[1];

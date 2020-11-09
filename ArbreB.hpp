@@ -8,12 +8,10 @@ class c_ArbreB{
 private:
     c_Sommet<Type> * root;
     void insert(c_Sommet<Type> *node);
-<<<<<<< HEAD
-    void m_delete(c_Sommet<Type> *node);
-=======
     void scanTree(c_Sommet<Type> *node) const;
+    c_Sommet<Type> * fuse(c_Sommet<Type> *source,c_Sommet<Type> *target);
+    c_Sommet<Type> * decompose(c_Sommet<Type> *target);
 
->>>>>>> f5a4baeee684fca5cf239aae2cf34bb97437b865
 
 public:
     //Constructors
@@ -22,14 +20,9 @@ public:
 
     void m_delete(c_Sommet<Type> *node);
     c_Sommet<Type>* getRoot(){return root;}
-<<<<<<< HEAD
-    c_Sommet<Type>* search(Type valueSommet);
-    void create(Type value);
-    
-=======
     c_Sommet<Type>* search(Type &val) const;
     void createNode(Type value);
->>>>>>> f5a4baeee684fca5cf239aae2cf34bb97437b865
+    void modifyNode(c_Sommet<Type> *target,const Type value);
 
     //Destructor
     ~c_ArbreB(){

@@ -2,18 +2,6 @@
 #include <iostream>
 
 template<class Type>
-<<<<<<< HEAD
-c_Sommet<Type> *c_ArbreB<Type>::search(Type valueSommet) {
-    c_Sommet<Type> *current = root;
-    while(current){
-        if(valueSommet== current->valueSommet)
-         return current;
-        else if(valueSommet < current->valueSommet)
-         current = current->left;
-        else
-         current = current->right;
-    }
-=======
 void c_ArbreB<Type>::scanTree(c_Sommet<Type> *startNode) const{
     //Left first because of standart tree reading.
     if(startNode->left)
@@ -26,7 +14,6 @@ void c_ArbreB<Type>::scanTree(c_Sommet<Type> *startNode) const{
     //Right then
     if(startNode->right)
         scanTree(startNode->right);
->>>>>>> f5a4baeee684fca5cf239aae2cf34bb97437b865
 }
 
 template<class Type>
@@ -48,6 +35,52 @@ c_Sommet<Type> *c_ArbreB<Type>::search(Type &val) const {
     }
 
     return nullptr;
+}
+
+//Fuse a source(root's node) and its binary tree to a target node (which contains main binary tree)
+template<class Type>
+c_Sommet<Type> *c_ArbreB<Type>::fuse(c_Sommet<Type> *source,c_Sommet<Type> *target){
+    if (!source)
+        return target;
+    if (!target)
+        return source;
+
+    //Case where 
+    if          (source->valueSommet > target->valueSommet) {
+        c_Sommet<Type>*temp = target->right;
+        target->right = nullptr;
+        source->left = fuse(source,temp);
+        return source;
+    }
+    //Case where
+    else if     (source->valueSommet < target->valueSommet) {
+        c_Sommet<Type>*temp = source->right;
+        source->right = nullptr;
+        target->left = fuse(target,temp);
+        return target;
+    }
+    //Case where target is a leaf 
+    else {
+        c_Sommet<Type>*temp = source->left;
+        source->left = target ;
+        source->right = temp;
+        return source;
+    }
+}
+
+//Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
+template<class Type>
+c_Sommet<Type> *c_ArbreB<Type>::decompose(c_Sommet<Type> *target){
+    c_Sommet<Type>*temp = target;
+    m_delete(target);
+    return temp;
+}
+
+//Modifies value of a node(target)
+template<class Type>
+void c_ArbreB<Type>::modifyNode(c_Sommet<Type> *target,const Type value){
+    //attributes a new value to the target node
+    target->valueSommet = value;
 }
 
 template<class Type>
