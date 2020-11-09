@@ -1,8 +1,16 @@
 #include "ArbreB.hpp"
 
 template<class Type>
-c_Sommet<Type> *c_ArbreB<Type>::search() {
-    //Will complete later.
+c_Sommet<Type> *c_ArbreB<Type>::search(Type valueSommet) {
+    c_Sommet<Type> *current = root;
+    while(current){
+        if(valueSommet== current->valueSommet)
+         return current;
+        else if(valueSommet < current->valueSommet)
+         current = current->left;
+        else
+         current = current->right;
+    }
 }
 //Creates a binary tree
 template<class Type>
