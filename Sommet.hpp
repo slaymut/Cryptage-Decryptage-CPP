@@ -18,18 +18,18 @@ public:
     //Constructor
     c_Sommet() : valueSommet(0){}
     c_Sommet(int const &value) : valueSommet(value){}
-    c_Sommet(c_Sommet *leftChild,c_Sommet *rightChild) {
+    c_Sommet(c_Sommet *leftChild, c_Sommet *rightChild) {
         frequence = leftChild->frequence + rightChild->frequence;
-    
+
         children[0] = leftChild;
         children[1] = rightChild;
-    
+
         // internal nodes don't represent a single symbol ( noeud contient somme des fréquences (la fréquence de chaque fils(les 2 fils quoi)) go discord pour le schéma)
         symbol = 0;
     };
     c_Sommet(double freq, char sym) {
         frequence = freq ;
-         // these children will ALWAYS be NULL since this is a leaf node(feuilles de l'arbre)
+        // these children will ALWAYS be NULL since this is a leaf node(feuilles de l'arbre)
         children[0] = nullptr;
         children[1] = nullptr;
         symbol = sym;

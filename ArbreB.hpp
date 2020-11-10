@@ -6,12 +6,11 @@
 
 class c_ArbreB{
 private:
-    c_Sommet * root;
+    c_Sommet * root = new c_Sommet;
     void insert(c_Sommet *node);
-
-    c_Sommet * fuse(c_Sommet *source,c_Sommet *target);
-    c_Sommet * decompose(c_Sommet *target);
     void scanTree(c_Sommet *node) const;
+
+
 
 public:
     //Constructors
@@ -19,11 +18,15 @@ public:
     c_ArbreB(const int &value){
         root->valueSommet = value;
     }
+    c_ArbreB(c_Sommet *someNode) : root(someNode){}
 
-    void m_delete(c_Sommet *node);
+    //Methods
+    void m_delete(int &val);
     c_Sommet* getRoot(){return root;}
-    c_Sommet* search(int &val) const;
-    void printTree();
+    c_Sommet * fuse(c_Sommet *source,c_Sommet *target);
+    c_Sommet * decompose(c_Sommet *target);
+    c_Sommet* search(int val) const;
+    void printTree() const;
     void createNode(const int &value);
     void modifyNode(c_Sommet *target, int value);
 

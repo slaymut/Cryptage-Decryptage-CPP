@@ -1,7 +1,7 @@
 #include "ArbreB.hpp"
 #include <iostream>
 
-
+//Scans the whole tree
 void c_ArbreB::scanTree(c_Sommet *startNode) const{
     //Left first because of standart tree reading.
     if(startNode->left) {
@@ -20,50 +20,53 @@ void c_ArbreB::scanTree(c_Sommet *startNode) const{
     }
 }
 
-
-c_Sommet *c_ArbreB::search(int &val) const {
+//Searches for a node in the tree
+c_Sommet *c_ArbreB::search(int val) const {
     //Take root
     c_Sommet *current = root;
+    std::cout << "Searching node of value : " << val << '\n';
 
-    //While root not nullptr
+    //While current not nullptr
     while(current){
         //If node is found, return it
-        if(current->valueSommet == val)
+        if(val == current->valueSommet) {
+            std::cout << "Found node of value : " << val << '\n';
             return current;
+        }
 
-        //Go left if value is
-        if(current->valueSommet > val)
+        //Go Right if value is larger
+        if(val > current->valueSommet)
             current = current->right;
+            //Else go left
         else
             current = current->left;
     }
-
+    std::cout << "Didn't found node !" << '\n';
     return nullptr;
 }
 
-//Fuse a source(root's node) and its binary tree to a target node (which contains main binary tree)
-
+//Fuse a source(root's node) and its binary tree to a target node (which contains main binary tree) *NEEDS TO BE FIXED*
 c_Sommet *c_ArbreB::fuse(c_Sommet *source, c_Sommet *target){
     if (!source)
         return target;
     if (!target)
         return source;
 
-    //Case where 
+    //Case where
     if          (source->valueSommet > target->valueSommet) {
         c_Sommet *temp = target->right;
         target->right = nullptr;
         source->left = fuse(source, temp);
         return source;
     }
-    //Case where
+        //Case where
     else if     (source->valueSommet < target->valueSommet) {
         c_Sommet *temp = source->right;
         source->right = nullptr;
         target->left = fuse(target,temp);
         return target;
     }
-    //Case where target is a leaf 
+        //Case where target is a leaf
     else {
         c_Sommet *temp = source->left;
         source->left = target ;
@@ -76,7 +79,7 @@ c_Sommet *c_ArbreB::fuse(c_Sommet *source, c_Sommet *target){
 
 c_Sommet *c_ArbreB::decompose(c_Sommet *target){
     c_Sommet *temp = target;
-    m_delete(target);
+    m_delete(target->valueSommet);
     return temp;
 }
 
@@ -88,7 +91,7 @@ void c_ArbreB::modifyNode(c_Sommet *target, const int value){
 
 void c_ArbreB::createNode(const int &value){
     //Allocate a new node
-    c_Sommet * newNode = new c_Sommet;
+    auto * newNode = new c_Sommet;
 
     //Initialize left and right nodes
     newNode->right = nullptr;
@@ -127,7 +130,7 @@ void c_ArbreB::insert(c_Sommet *noodle){
         previous->right = noodle;
 }
 
-void c_ArbreB::printTree(){
+void c_ArbreB::printTree() const{
     if(root != nullptr)
         scanTree(root);
     else
@@ -135,11 +138,49 @@ void c_ArbreB::printTree(){
 }
 
 //Deletes a node in the tree.
-void c_ArbreB::m_delete(c_Sommet *node){
-    if (node==nullptr) return;
+void c_ArbreB::m_delete(int &val){
+    c_Sommet *node = search(val);
 
-    m_delete(node->right);
-    m_delete(node->left);
+    if (!node){
+        std::cout << "There is no node to delete !" << '\n';
+        return;
+    }
 
+    c_Sommet *right = node->right;
+    c_Sommet *left = node->left;
+    c_Sommet *current = root;
+
+    //Case where value to delete is in root Node
+    if(node == root){
+        root = right;
+        if(left) insert(left);
+
+        delete node;
+        std::cout << "Sommet has been deleted !" << '\n';
+        return;
+    }
+
+
+    //Other cases
+    while(current){
+        //If we find node
+        if(current->right == node ||current->left == node)
+            break;
+
+        //Else
+        if(node->valueSommet >= current->valueSommet)
+            current = current->right;
+        else
+            current = current->left;
+    }
+
+    if(current->right == node)
+        current->right = right;
+    else
+        current->left = right;
+
+    if(left) insert(left);
     delete node;
+
+    std::cout << "Sommet has been deleted !" << '\n';
 }
