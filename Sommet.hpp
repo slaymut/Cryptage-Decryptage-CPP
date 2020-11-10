@@ -1,21 +1,24 @@
 #ifndef SOMMET_HPP
 #define SOMMET_HPP
 #include <cstddef>
-template<class Type>
+
 
 class c_Sommet{
 private:
     static int nbrNoeud;
-    double frequence ;
-    char symbol ;
+    double frequence{} ;
+    char symbol{} ;
     // Array of references to this node's children
     const c_Sommet* children[2];
 public:
-    const c_Sommet* node;
-    Type valueSommet;
+    int valueSommet;
+    c_Sommet *left;
+    c_Sommet *right;
+
     //Constructor
-    c_Sommet(): valueSommet(nullptr) {};
-    c_Sommet(c_Sommet leftChild,c_Sommet rightChild) {
+    c_Sommet() : valueSommet(0){}
+    c_Sommet(int const &value) : valueSommet(value){}
+    c_Sommet(c_Sommet *leftChild,c_Sommet *rightChild) {
         frequence = leftChild->frequence + rightChild->frequence;
     
         children[0] = leftChild;
@@ -27,23 +30,27 @@ public:
     c_Sommet(double freq, char sym) {
         frequence = freq ;
          // these children will ALWAYS be NULL since this is a leaf node(feuilles de l'arbre)
-        children[0] = NULL;
-        children[1] = NULL;
+        children[0] = nullptr;
+        children[1] = nullptr;
         symbol = sym;
     };
-    explicit c_Sommet(Type const &value) : valueSommet(value){};
 
-    //Getters
-    inline Type & getValue() const {return valueSommet;};
-    c_Sommet <Type> *left;
-    c_Sommet <Type> *right;
-    virtual c_Sommet <Type> &get_left() const {return *left;};
-    virtual c_Sommet <Type> &get_right() const {return *right;};
-    
     //Destructor
     ~c_Sommet(){
         delete left; delete right;
     }
+
+
+    /*
+     * Je pense que ces getters sont inutiles sachant que LEFT et RIGHT sont public ;)
+     * Il faudrait les supprimer à mon avis.
+     */
+
+    //Getter
+    /*virtual c_Sommet &get_left() const {return *left;};
+    virtual c_Sommet &get_right() const {return *right;};*/
+
+
     //J'aurais pensé à ce destructor du coup
     /*
     ~c_Sommet(){

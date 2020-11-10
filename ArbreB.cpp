@@ -1,25 +1,29 @@
 #include "ArbreB.hpp"
 #include <iostream>
 
-template<class Type>
-void c_ArbreB<Type>::scanTree(c_Sommet<Type> *startNode) const{
+
+void c_ArbreB::scanTree(c_Sommet *startNode) const{
     //Left first because of standart tree reading.
-    if(startNode->left)
+    if(startNode->left) {
+        std::cout << "Going left." << '\n';
         scanTree(startNode->left);
+    }
 
     //Show current node value
     if(startNode)
         std::cout << "Value of current node: " << startNode->valueSommet << '\n';
 
     //Right then
-    if(startNode->right)
+    if(startNode->right){
+        std::cout << "Going right." << '\n';
         scanTree(startNode->right);
+    }
 }
 
-template<class Type>
-c_Sommet<Type> *c_ArbreB<Type>::search(Type &val) const {
+
+c_Sommet *c_ArbreB::search(int &val) const {
     //Take root
-    c_Sommet<Type> *current = root;
+    c_Sommet *current = root;
 
     //While root not nullptr
     while(current){
@@ -38,8 +42,8 @@ c_Sommet<Type> *c_ArbreB<Type>::search(Type &val) const {
 }
 
 //Fuse a source(root's node) and its binary tree to a target node (which contains main binary tree)
-template<class Type>
-c_Sommet<Type> *c_ArbreB<Type>::fuse(c_Sommet<Type> *source,c_Sommet<Type> *target){
+
+c_Sommet *c_ArbreB::fuse(c_Sommet *source, c_Sommet *target){
     if (!source)
         return target;
     if (!target)
@@ -47,21 +51,21 @@ c_Sommet<Type> *c_ArbreB<Type>::fuse(c_Sommet<Type> *source,c_Sommet<Type> *targ
 
     //Case where 
     if          (source->valueSommet > target->valueSommet) {
-        c_Sommet<Type>*temp = target->right;
+        c_Sommet *temp = target->right;
         target->right = nullptr;
-        source->left = fuse(source,temp);
+        source->left = fuse(source, temp);
         return source;
     }
     //Case where
     else if     (source->valueSommet < target->valueSommet) {
-        c_Sommet<Type>*temp = source->right;
+        c_Sommet *temp = source->right;
         source->right = nullptr;
         target->left = fuse(target,temp);
         return target;
     }
     //Case where target is a leaf 
     else {
-        c_Sommet<Type>*temp = source->left;
+        c_Sommet *temp = source->left;
         source->left = target ;
         source->right = temp;
         return source;
@@ -69,24 +73,22 @@ c_Sommet<Type> *c_ArbreB<Type>::fuse(c_Sommet<Type> *source,c_Sommet<Type> *targ
 }
 
 //Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
-template<class Type>
-c_Sommet<Type> *c_ArbreB<Type>::decompose(c_Sommet<Type> *target){
-    c_Sommet<Type>*temp = target;
+
+c_Sommet *c_ArbreB::decompose(c_Sommet *target){
+    c_Sommet *temp = target;
     m_delete(target);
     return temp;
 }
 
 //Modifies value of a node(target)
-template<class Type>
-void c_ArbreB<Type>::modifyNode(c_Sommet<Type> *target,const Type value){
+void c_ArbreB::modifyNode(c_Sommet *target, const int value){
     //attributes a new value to the target node
     target->valueSommet = value;
 }
 
-template<class Type>
-void c_ArbreB<Type>::createNode(const Type value){
+void c_ArbreB::createNode(const int &value){
     //Allocate a new node
-    auto * newNode = new c_Sommet<Type>;
+    c_Sommet * newNode = new c_Sommet;
 
     //Initialize left and right nodes
     newNode->right = nullptr;
@@ -100,8 +102,7 @@ void c_ArbreB<Type>::createNode(const Type value){
 }
 
 //Inserts a node in the tree.
-template<class Type>
-void c_ArbreB<Type>::insert(c_Sommet<Type> *noodle){
+void c_ArbreB::insert(c_Sommet *noodle){
     if(!noodle) return;
 
     if(root == nullptr){
@@ -109,8 +110,8 @@ void c_ArbreB<Type>::insert(c_Sommet<Type> *noodle){
         return;
     }
 
-    c_Sommet<Type> *current = root;
-    c_Sommet<Type> *previous = nullptr;
+    c_Sommet *current = root;
+    c_Sommet *previous = nullptr;
 
     while(current){
         previous = current;
@@ -126,9 +127,15 @@ void c_ArbreB<Type>::insert(c_Sommet<Type> *noodle){
         previous->right = noodle;
 }
 
+void c_ArbreB::printTree(){
+    if(root != nullptr)
+        scanTree(root);
+    else
+        std::cout << "There is no tree !" << '\n';
+}
+
 //Deletes a node in the tree.
-template<class Type>
-void c_ArbreB<Type>::m_delete(c_Sommet<Type> *node){
+void c_ArbreB::m_delete(c_Sommet *node){
     if (node==nullptr) return;
 
     m_delete(node->right);
