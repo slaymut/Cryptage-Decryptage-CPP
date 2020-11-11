@@ -37,7 +37,7 @@ c_Sommet *c_ArbreB::search(int val) const {
         //Go Right if value is larger
         if(val > current->valueSommet)
             current = current->right;
-            //Else go left
+        //Else go left
         else
             current = current->left;
     }
@@ -45,73 +45,64 @@ c_Sommet *c_ArbreB::search(int val) const {
     return nullptr;
 }
 
-//Fuse a source(root's node) and its binary tree to a target node (which contains main binary tree) *NEEDS TO BE FIXED*
-c_Sommet *c_ArbreB::fuse(c_Sommet *source, c_Sommet *target){
-    if (!source)
-        return target;
-    if (!target)
-        return source;
+//Fuse the value of two nodes to create a new one, linked to both previous nodes.
+void c_ArbreB::fuse(c_Sommet *first, c_Sommet *second){
+    //If first node is nullptr
+    if (!first)
+        insert(second);
+    //If second node is nullptr
+    if (!second)
+        insert(first);
 
-    //Case where
-    if          (source->valueSommet > target->valueSommet) {
-        c_Sommet *temp = target->right;
-        target->right = nullptr;
-        source->left = fuse(source, temp);
-        return source;
+    //We allocate a new node and sum their values
+    auto *sumNode = new c_Sommet{};
+    sumNode->valueSommet = first->valueSommet + second->valueSommet;
+
+    //To select which one to put on right and left
+    if(first->valueSommet >= second->valueSommet) {
+        sumNode->right = first;
+        sumNode->left = second;
     }
-        //Case where
-    else if     (source->valueSommet < target->valueSommet) {
-        c_Sommet *temp = source->right;
-        source->right = nullptr;
-        target->left = fuse(target,temp);
-        return target;
+    else{
+        sumNode->right = second;
+        sumNode->left = first;
     }
-        //Case where target is a leaf
-    else {
-        c_Sommet *temp = source->left;
-        source->left = target ;
-        source->right = temp;
-        return source;
-    }
+
+    std::cout << "Node created !" << '\n';
+    insert(sumNode);
 }
 
 //Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
 
-c_Sommet *c_ArbreB::decompose(c_Sommet *target){
+void c_ArbreB::decompose(c_Sommet *target, c_ArbreB &Tree){
     if(!target) {
-        std::cout << "can't decompose sub binary tree if there is not a valid node in argument" << std::endl;
-        return nullptr;
+        std::cout << "Can't decompose sub-binary tree if no valid node in argument." << std::endl;
+        return;
     }
 
-    std::cout << "Search of decompose method" << std::endl;
-    target = search(target->valueSommet);
-    /*
-    if (target->right) { 
-        c_Sommet *target_right = target->right;
-        std::cout << "value of target right child : " << target_right->valueSommet << std::endl;
-    }
-    if (target->left) {
-        c_Sommet *target_left = target->left;
-        std::cout << "value of target left child : " << target_left->valueSommet << std::endl;
-    }
-    */
-    
-    while(target){
-        if(target->left) {
-            std::cout << "going into left sub tree in order to decompose" << std::endl;
-            m_delete(target->left,(target->left)->valueSommet );
-            decompose(target->left);
+    Tree.insert(target);
+    auto *current = target;
+    c_Sommet *previous = nullptr;
+
+    while(current){
+        previous = current;
+        if(current->left) {
+            std::cout << "Going into left sub tree in order to decompose" << std::endl;
+            current = current->left;
+            Tree.insert(current->left);
+            m_delete(current->left);
         }
-        if(target->right) {
-            std::cout << "going into right sub tree in order to decompose" << std::endl;
-            m_delete(target->right,(target->right)->valueSommet );
-            decompose(target->right);
+        if(current->right) {
+            std::cout << "Going into right sub tree in order to decompose" << std::endl;
+            current = current->right;
+            Tree.insert(current->right);
+            m_delete(current->right);
         }
         else {
             break;
-        }  
+        }
     }
-    m_delete(target,target->valueSommet);  
+    m_delete(target);
 
 }
 
@@ -174,9 +165,9 @@ void c_ArbreB::printTree() const{
 }
 
 //Deletes a node in the tree.
-void c_ArbreB::m_delete(c_Sommet *node,int &val){
-    std::cout << "Search of m_delete method" << std::endl;
-    node = search(val);
+void c_ArbreB::m_delete(c_Sommet *target){
+    //We allocate memory for the node
+    c_Sommet *node = target;
 
     if (!node){
         std::cout << "There is no node to delete !" << '\n';

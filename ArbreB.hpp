@@ -21,10 +21,10 @@ public:
     c_ArbreB(c_Sommet *someNode) : root(someNode){}
 
     //Methods
-    void m_delete(c_Sommet *node,int &val);
+    void m_delete(c_Sommet *node);
     c_Sommet* getRoot(){return root;}
-    c_Sommet * fuse(c_Sommet *source,c_Sommet *target);
-    c_Sommet * decompose(c_Sommet *target);
+    void fuse(c_Sommet *source,c_Sommet *target);
+    void decompose(c_Sommet *target, c_ArbreB &Tree);
     c_Sommet* search(int val) const;
     void printTree() const;
     void createNode(const int &value);
