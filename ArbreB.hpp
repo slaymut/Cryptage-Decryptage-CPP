@@ -21,7 +21,7 @@ public:
     c_ArbreB(c_Sommet *someNode) : root(someNode){}
 
     //Methods
-    void m_delete(int &val);
+    void m_delete(c_Sommet *node,int &val);
     c_Sommet* getRoot(){return root;}
     c_Sommet * fuse(c_Sommet *source,c_Sommet *target);
     c_Sommet * decompose(c_Sommet *target);

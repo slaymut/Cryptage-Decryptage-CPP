@@ -1,5 +1,6 @@
 # Cryptage-Decryptage-CPP
 This repository is for the C++ project.
+This repository is to be compiled with c++ 17 ( -std=c++17 )
 
 Everything we advancement made has to be written in this README.md file for best practice. Commits are nice, but this could be better !
 I suggest we write README.md's in English for Best Practice to get prepared for your professional career and stuff.

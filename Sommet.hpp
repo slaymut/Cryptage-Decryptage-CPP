@@ -34,12 +34,12 @@ public:
         children[1] = nullptr;
         symbol = sym;
     };
-
+    
     //Destructor
     ~c_Sommet(){
         delete left; delete right;
     }
-
+    
 
     /*
      * Je pense que ces getters sont inutiles sachant que LEFT et RIGHT sont public ;)

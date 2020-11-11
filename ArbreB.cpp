@@ -3,15 +3,15 @@
 
 //Scans the whole tree
 void c_ArbreB::scanTree(c_Sommet *startNode) const{
+    //Show current node value
+    if(startNode)
+        std::cout << "Value of current node: " << startNode->valueSommet << '\n';
+
     //Left first because of standart tree reading.
     if(startNode->left) {
         std::cout << "Going left." << '\n';
         scanTree(startNode->left);
     }
-
-    //Show current node value
-    if(startNode)
-        std::cout << "Value of current node: " << startNode->valueSommet << '\n';
 
     //Right then
     if(startNode->right){
@@ -78,15 +78,47 @@ c_Sommet *c_ArbreB::fuse(c_Sommet *source, c_Sommet *target){
 //Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
 
 c_Sommet *c_ArbreB::decompose(c_Sommet *target){
-    c_Sommet *temp = target;
-    m_delete(target->valueSommet);
-    return temp;
+    if(!target) {
+        std::cout << "can't decompose sub binary tree if there is not a valid node in argument" << std::endl;
+        return nullptr;
+    }
+
+    std::cout << "Search of decompose method" << std::endl;
+    target = search(target->valueSommet);
+    /*
+    if (target->right) { 
+        c_Sommet *target_right = target->right;
+        std::cout << "value of target right child : " << target_right->valueSommet << std::endl;
+    }
+    if (target->left) {
+        c_Sommet *target_left = target->left;
+        std::cout << "value of target left child : " << target_left->valueSommet << std::endl;
+    }
+    */
+    
+    while(target){
+        if(target->left) {
+            std::cout << "going into left sub tree in order to decompose" << std::endl;
+            m_delete(target->left,(target->left)->valueSommet );
+            decompose(target->left);
+        }
+        if(target->right) {
+            std::cout << "going into right sub tree in order to decompose" << std::endl;
+            m_delete(target->right,(target->right)->valueSommet );
+            decompose(target->right);
+        }
+        else {
+            break;
+        }  
+    }
+    m_delete(target,target->valueSommet);  
+
 }
 
 //Modifies value of a node(target)
 void c_ArbreB::modifyNode(c_Sommet *target, const int value){
     //attributes a new value to the target node
-    target->valueSommet = value;
+    target->valueSommet = value ;
 }
 
 void c_ArbreB::createNode(const int &value){
@@ -105,41 +137,46 @@ void c_ArbreB::createNode(const int &value){
 }
 
 //Inserts a node in the tree.
-void c_ArbreB::insert(c_Sommet *noodle){
-    if(!noodle) return;
+void c_ArbreB::insert(c_Sommet *node){
+    if(!node) return;
 
     if(root == nullptr){
-        root = noodle;
+        root = node;
         return;
     }
-
+    
     c_Sommet *current = root;
     c_Sommet *previous = nullptr;
 
     while(current){
         previous = current;
-        if(noodle->valueSommet < current->valueSommet)
+        if(node->valueSommet < current->valueSommet)
             current = current->left;
         else
             current = current->right;
     }
 
-    if(noodle->valueSommet < previous->valueSommet)
-        previous->left = noodle;
+    if(node->valueSommet < previous->valueSommet)
+        previous->left = node;
     else
-        previous->right = noodle;
+        previous->right = node;
+
 }
 
 void c_ArbreB::printTree() const{
-    if(root != nullptr)
+    if(root != nullptr) {
+        std::cout << "\n" ;
+        std::cout << "SCANNING OF THE TREE ..." << std::endl;
         scanTree(root);
+    }
     else
         std::cout << "There is no tree !" << '\n';
 }
 
 //Deletes a node in the tree.
-void c_ArbreB::m_delete(int &val){
-    c_Sommet *node = search(val);
+void c_ArbreB::m_delete(c_Sommet *node,int &val){
+    std::cout << "Search of m_delete method" << std::endl;
+    node = search(val);
 
     if (!node){
         std::cout << "There is no node to delete !" << '\n';
@@ -180,7 +217,7 @@ void c_ArbreB::m_delete(int &val){
         current->left = right;
 
     if(left) insert(left);
+    node = nullptr;
     delete node;
-
     std::cout << "Sommet has been deleted !" << '\n';
 }
