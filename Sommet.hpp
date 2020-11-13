@@ -5,18 +5,18 @@
 
 class c_Sommet{
 private:
-    static int nbrNoeud;
-    double frequence{} ;
-    char symbol{} ;
+    double frequence;
+    char symbol;
+    int depth = 0;
     // Array of references to this node's children
     const c_Sommet* children[2];
 public:
     int valueSommet;
-    c_Sommet *left;
-    c_Sommet *right;
+    c_Sommet *left = nullptr;
+    c_Sommet *right = nullptr;
 
     //Constructor
-    c_Sommet() : valueSommet(0){}
+    c_Sommet() = delete;
     c_Sommet(int const &value) : valueSommet(value){}
     c_Sommet(c_Sommet *leftChild, c_Sommet *rightChild) {
         frequence = leftChild->frequence + rightChild->frequence;
@@ -39,7 +39,12 @@ public:
     ~c_Sommet(){
         delete left; delete right;
     }
-    
+
+    void setDepth(int theDepth){
+        depth = theDepth;
+    }
+
+    int &getDepth(){ return depth; };
 
     /*
      * Je pense que ces getters sont inutiles sachant que LEFT et RIGHT sont public ;)

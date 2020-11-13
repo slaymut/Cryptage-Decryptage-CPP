@@ -6,11 +6,9 @@
 
 class c_ArbreB{
 private:
-    c_Sommet * root = new c_Sommet;
+    c_Sommet * root;
     void insert(c_Sommet *node);
     void scanTree(c_Sommet *node) const;
-
-
 
 public:
     //Constructors

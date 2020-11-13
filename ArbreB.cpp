@@ -5,7 +5,7 @@
 void c_ArbreB::scanTree(c_Sommet *startNode) const{
     //Show current node value
     if(startNode)
-        std::cout << "Value of current node: " << startNode->valueSommet << '\n';
+        std::cout << "Value of current node: " << startNode->valueSommet << " of depth: " << startNode->getDepth() <<'\n';
 
     //Left first because of standart tree reading.
     if(startNode->left) {
@@ -55,7 +55,7 @@ void c_ArbreB::fuse(c_Sommet *first, c_Sommet *second){
         insert(first);
 
     //We allocate a new node and sum their values
-    auto *sumNode = new c_Sommet{};
+    c_Sommet *sumNode;
     sumNode->valueSommet = first->valueSommet + second->valueSommet;
 
     //To select which one to put on right and left
@@ -114,14 +114,7 @@ void c_ArbreB::modifyNode(c_Sommet *target, const int value){
 
 void c_ArbreB::createNode(const int &value){
     //Allocate a new node
-    auto * newNode = new c_Sommet;
-
-    //Initialize left and right nodes
-    newNode->right = nullptr;
-    newNode->left = nullptr;
-
-    //Insert value
-    newNode->valueSommet = value;
+    auto * newNode = new c_Sommet{value};
 
     //Insert node in tree
     insert(newNode);
@@ -135,16 +128,21 @@ void c_ArbreB::insert(c_Sommet *node){
         root = node;
         return;
     }
-    
+
+    int cpt{0};
     c_Sommet *current = root;
     c_Sommet *previous = nullptr;
 
     while(current){
         previous = current;
-        if(node->valueSommet < current->valueSommet)
+        if(node->valueSommet < current->valueSommet) {
             current = current->left;
-        else
+            cpt++;
+        }
+        else {
             current = current->right;
+            cpt++;
+        }
     }
 
     if(node->valueSommet < previous->valueSommet)
@@ -152,6 +150,7 @@ void c_ArbreB::insert(c_Sommet *node){
     else
         previous->right = node;
 
+    node->setDepth(cpt);
 }
 
 void c_ArbreB::printTree() const{
@@ -165,50 +164,17 @@ void c_ArbreB::printTree() const{
 }
 
 //Deletes a node in the tree.
-void c_ArbreB::m_delete(c_Sommet *target){
-    //We allocate memory for the node
-    c_Sommet *node = target;
-
-    if (!node){
-        std::cout << "There is no node to delete !" << '\n';
+void c_ArbreB::m_delete(c_Sommet *node){
+    if(!node){
         return;
     }
-
-    c_Sommet *right = node->right;
-    c_Sommet *left = node->left;
-    c_Sommet *current = root;
-
-    //Case where value to delete is in root Node
-    if(node == root){
-        root = right;
-        if(left) insert(left);
-
-        delete node;
-        std::cout << "Sommet has been deleted !" << '\n';
+    if(node == root) {
+        root = nullptr;
+        delete root;
         return;
     }
-
-
-    //Other cases
-    while(current){
-        //If we find node
-        if(current->right == node ||current->left == node)
-            break;
-
-        //Else
-        if(node->valueSommet >= current->valueSommet)
-            current = current->right;
-        else
-            current = current->left;
-    }
-
-    if(current->right == node)
-        current->right = right;
-    else
-        current->left = right;
-
-    if(left) insert(left);
     node = nullptr;
     delete node;
+
     std::cout << "Sommet has been deleted !" << '\n';
 }
