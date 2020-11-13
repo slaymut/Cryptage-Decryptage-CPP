@@ -17,9 +17,15 @@ int main(int argc, const char * argv[]) {
     tree.printTree();
     std::cout << '\n';
     std::cout << '\n';
-
+    /*
     tree.m_delete(node2);
     tree.printTree();
-    
+
+    std::cout << '\n';
+    std::cout << '\n';
+    */
+    tree.m_deleteST(node1);
+    tree.printTree();
+
     return 0;
 }

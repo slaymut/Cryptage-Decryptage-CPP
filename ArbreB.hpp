@@ -20,6 +20,7 @@ public:
 
     //Methods
     void m_delete(c_Sommet *node);
+    void m_deleteST(c_Sommet *target);
     c_Sommet* getRoot(){return root;}
     void fuse(c_Sommet *source,c_Sommet *target);
     void decompose(c_Sommet *target, c_ArbreB &Tree);

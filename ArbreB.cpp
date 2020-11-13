@@ -165,16 +165,78 @@ void c_ArbreB::printTree() const{
 
 //Deletes a node in the tree.
 void c_ArbreB::m_delete(c_Sommet *node){
-    if(!node){
+    std::cout << "Search of m_delete method" << std::endl;
+
+    if (!node){
+        std::cout << "There is no node to delete !" << '\n';
         return;
     }
-    if(node == root) {
-        root = nullptr;
-        delete root;
+
+    c_Sommet *right = node->right;
+    c_Sommet *left = node->left;
+    c_Sommet *current = root;
+
+    //Case where value to delete is in root Node
+    if(node == root){
+        root = right;
+        if(left) insert(left);
+
+        delete node;
+        std::cout << "Sommet has been deleted !" << '\n';
         return;
     }
+
+
+    //Other cases
+    while(current){
+        //If we find node
+        if(current->right == node ||current->left == node)
+            break;
+
+        //Else
+        if(node->valueSommet >= current->valueSommet)
+            current = current->right;
+        else
+            current = current->left;
+    }
+
+    if(current->right == node)
+        current->right = right;
+    else
+        current->left = right;
+
+    if(left) insert(left);
     node = nullptr;
     delete node;
-
     std::cout << "Sommet has been deleted !" << '\n';
+}
+
+//Deletes a node and its sub tree 
+void c_ArbreB::m_deleteST(c_Sommet *target) {
+    if(!(target)) {
+        std::cout << "can't decompose sub binary tree if there is not a valid node in argument" << std::endl;
+        return ;
+    }
+
+    std::cout << "Search of decompose method" << std::endl;
+    target = search(target->valueSommet);
+
+    while(target){
+        if(target->left) {
+            std::cout << "going into left sub tree in order to decompose" << std::endl;
+            m_delete(target->left );
+            m_deleteST(target->left);
+        }
+        if(target->right) {
+            std::cout << "going into right sub tree in order to decompose" << std::endl;
+            m_delete(target->right);
+            m_deleteST(target->right);
+        }
+        else {
+            if (target) {
+                m_delete(target);
+                return;
+            }
+        }  
+    }
 }
