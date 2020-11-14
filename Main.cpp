@@ -11,15 +11,23 @@ int main(int argc, const char * argv[]) {
     
 
     c_ArbreB tree{root};
-    tree.createNode(node1->valueSommet);
-    tree.createNode(node2->valueSommet);
-    tree.createNode(node3->valueSommet);
+    c_ArbreB Tree{node2};
+    Tree.createNode(node3->valueSommet);
+    Tree.createNode(node1->valueSommet);
+    Tree.printTree();
+    //tree.createNode(node1->valueSommet);
     tree.printTree();
     std::cout << '\n';
     std::cout << '\n';
 
-    tree.m_delete(node2);
+    tree.fuse(Tree);
+
+    tree.decompose(Tree);
+
     tree.printTree();
+    std::cout << '\n';
+    std::cout << '\n';
+    Tree.printTree();
     
     return 0;
 }

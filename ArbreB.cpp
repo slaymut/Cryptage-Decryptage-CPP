@@ -46,63 +46,51 @@ c_Sommet *c_ArbreB::search(int val) const {
 }
 
 //Fuse the value of two nodes to create a new one, linked to both previous nodes.
-void c_ArbreB::fuse(c_Sommet *first, c_Sommet *second){
+void c_ArbreB::fuse(c_ArbreB &Tree){
     //If first node is nullptr
-    if (!first)
-        insert(second);
+    if (!root) {
+        insert(Tree.root);
+        return;
+    }
     //If second node is nullptr
-    if (!second)
-        insert(first);
+    if (!Tree.root) {
+        return;
+    }
 
     //We allocate a new node and sum their values
-    c_Sommet *sumNode;
-    sumNode->valueSommet = first->valueSommet + second->valueSommet;
+    auto *sumNode = new c_Sommet{root->valueSommet + Tree.root->valueSommet};
 
     //To select which one to put on right and left
-    if(first->valueSommet >= second->valueSommet) {
-        sumNode->right = first;
-        sumNode->left = second;
+    if(root->valueSommet >= Tree.root->valueSommet) {
+        sumNode->right = root;
+        sumNode->left = Tree.root;
     }
     else{
-        sumNode->right = second;
-        sumNode->left = first;
+        sumNode->right = Tree.root;
+        sumNode->left = root;
     }
 
     std::cout << "Node created !" << '\n';
-    insert(sumNode);
+    root = sumNode;
+
+    //We delete used Tree.
+    delete Tree.root;
+    Tree.root = nullptr;
 }
 
 //Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
 
-void c_ArbreB::decompose(c_Sommet *target, c_ArbreB &Tree){
-    if(!target) {
-        std::cout << "Can't decompose sub-binary tree if no valid node in argument." << std::endl;
+void c_ArbreB::decompose(c_ArbreB &Tree){
+    if(!root) {
+        std::cout << "Can't decompose tree. ERROR: Non-existant." << std::endl;
         return;
     }
 
-    Tree.insert(target);
-    auto *current = target;
-    c_Sommet *previous = nullptr;
+    Tree.root = root->left;
+    root->left = nullptr;
+    delete root->left;
 
-    while(current){
-        previous = current;
-        if(current->left) {
-            std::cout << "Going into left sub tree in order to decompose" << std::endl;
-            current = current->left;
-            Tree.insert(current->left);
-            m_delete(current->left);
-        }
-        if(current->right) {
-            std::cout << "Going into right sub tree in order to decompose" << std::endl;
-            current = current->right;
-            Tree.insert(current->right);
-            m_delete(current->right);
-        }
-        else {
-            break;
-        }
-    }
-    m_delete(target);
+    root = root->right;
 
 }
 
