@@ -2,28 +2,28 @@
 #include <iostream>
 
 //Scans the whole tree
-void c_ArbreB::scanTree(c_Sommet *startNode) const{
+void ArbreB::scanTree(Sommet *startNode) const{
     //Show current node value
     if(startNode)
         std::cout << "Value of current node: " << startNode->valueSommet << " of depth: " << startNode->getDepth() <<'\n';
 
     //Left first because of standart tree reading.
-    if(startNode->left) {
+    if(startNode->getLeft()) {
         std::cout << "Going left." << '\n';
-        scanTree(startNode->left);
+        scanTree(startNode->getLeft());
     }
 
     //Right then
-    if(startNode->right){
+    if(startNode->getRight()){
         std::cout << "Going right." << '\n';
-        scanTree(startNode->right);
+        scanTree(startNode->getRight());
     }
 }
 
 //Searches for a node in the tree
-c_Sommet *c_ArbreB::search(int val) const {
+Sommet *ArbreB::search(int val) const {
     //Take root
-    c_Sommet *current = root;
+    Sommet *current = root;
     std::cout << "Searching node of value : " << val << '\n';
 
     //While current not nullptr
@@ -36,17 +36,17 @@ c_Sommet *c_ArbreB::search(int val) const {
 
         //Go Right if value is larger
         if(val > current->valueSommet)
-            current = current->right;
+            current = current->getRight();
         //Else go left
         else
-            current = current->left;
+            current = current->getLeft();
     }
     std::cout << "Didn't found node !" << '\n';
     return nullptr;
 }
 
 //Fuse the value of two nodes to create a new one, linked to both previous nodes.
-void c_ArbreB::fuse(c_ArbreB &Tree){
+void ArbreB::fuse(ArbreB &Tree){
     //If first node is nullptr
     if (!root) {
         insert(Tree.root);
@@ -58,16 +58,16 @@ void c_ArbreB::fuse(c_ArbreB &Tree){
     }
 
     //We allocate a new node and sum their values
-    auto *sumNode = new c_Sommet{root->valueSommet + Tree.root->valueSommet};
+    auto *sumNode = new Sommet{root->valueSommet + Tree.root->valueSommet};
 
     //To select which one to put on right and left
     if(root->valueSommet >= Tree.root->valueSommet) {
-        sumNode->right = root;
-        sumNode->left = Tree.root;
+        sumNode->setRight(*root);
+        sumNode->setLeft(*Tree.root);
     }
     else{
-        sumNode->right = Tree.root;
-        sumNode->left = root;
+        sumNode->setRight(*Tree.root);
+        sumNode->setLeft(*root);
     }
 
     std::cout << "Node created !" << '\n';
@@ -80,36 +80,30 @@ void c_ArbreB::fuse(c_ArbreB &Tree){
 
 //Decompose a binary tree (target) or leaf from the main binary tree(source) and returns the target
 
-void c_ArbreB::decompose(c_ArbreB &Tree){
+void ArbreB::decompose(ArbreB &Tree){
     if(!root) {
         std::cout << "Can't decompose tree. ERROR: Non-existant." << std::endl;
         return;
     }
+    if(Tree.getRoot()){
+        std::cout << "Can't decompose tree. ERROR: Tree in parameters is an existant tree." << std::endl;
+        return;
+    }
 
-    Tree.root = root->left;
-    root->left = nullptr;
-    delete root->left;
+    Tree.root = root->getLeft();
 
-    root = root->right;
+    root = root->getRight();
 
 }
 
 //Modifies value of a node(target)
-void c_ArbreB::modifyNode(c_Sommet *target, const int value){
+void ArbreB::modifyNode(Sommet *target, const int value){
     //attributes a new value to the target node
     target->valueSommet = value ;
 }
 
-void c_ArbreB::createNode(const int &value){
-    //Allocate a new node
-    auto * newNode = new c_Sommet{value};
-
-    //Insert node in tree
-    insert(newNode);
-}
-
 //Inserts a node in the tree.
-void c_ArbreB::insert(c_Sommet *node){
+void ArbreB::insert(Sommet *node){
     if(!node) return;
 
     if(root == nullptr){
@@ -118,30 +112,30 @@ void c_ArbreB::insert(c_Sommet *node){
     }
 
     int cpt{0};
-    c_Sommet *current = root;
-    c_Sommet *previous = nullptr;
+    Sommet *current = root;
+    Sommet *previous = nullptr;
 
     while(current){
         previous = current;
         if(node->valueSommet < current->valueSommet) {
-            current = current->left;
+            current = current->getLeft();
             cpt++;
         }
         else {
-            current = current->right;
+            current = current->getRight();
             cpt++;
         }
     }
 
     if(node->valueSommet < previous->valueSommet)
-        previous->left = node;
+        previous->setLeft(*node);
     else
-        previous->right = node;
+        previous->setRight(*node);
 
     node->setDepth(cpt);
 }
 
-void c_ArbreB::printTree() const{
+void ArbreB::printTree() const{
     if(root != nullptr) {
         std::cout << "\n" ;
         std::cout << "SCANNING OF THE TREE ..." << std::endl;
@@ -152,7 +146,7 @@ void c_ArbreB::printTree() const{
 }
 
 //Deletes a node in the tree.
-void c_ArbreB::m_delete(c_Sommet *node){
+void ArbreB::m_delete(Sommet *node){
     if(!node){
         return;
     }
