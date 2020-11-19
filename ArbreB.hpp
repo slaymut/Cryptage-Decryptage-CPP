@@ -15,6 +15,9 @@ public:
     ArbreB(const int &value){
         root = new Sommet{value};
     }
+    ArbreB(ArbreB &Tree){
+        this->root = Tree.getRoot();
+    }
     ArbreB(Sommet *someNode) : root(someNode){}
 
     //Methods

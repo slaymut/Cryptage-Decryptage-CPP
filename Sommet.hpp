@@ -9,13 +9,11 @@ private:
     Sommet *right = nullptr;
     double frequence;
     char symbol;
-    int depth = 0;
-public:
+    int depth{};
     int valueSommet;
-
-
+public:
     //Constructor
-    Sommet();
+    Sommet() = delete;
     Sommet(int const &value) : valueSommet(value){}
     
     //Destructor
@@ -32,6 +30,7 @@ public:
             left = newS;
         }
     }
+
     void setRight(const Sommet& s) {
         if(&s == nullptr){
             right = nullptr;
@@ -43,11 +42,17 @@ public:
         }
     }
 
-    void setDepth(int theDepth){
+    void setDepth(const int &theDepth){
         depth = theDepth;
     }
+    void setValue(const int &value){
+        valueSommet = value;
+    }
 
-    int &getDepth(){ return depth; };
+    int getValue() const{ return valueSommet; }
+    int getDepth() const{ return depth; }
+
+
     Sommet *getRight(){return right;}
     Sommet *getLeft(){return left;}
 

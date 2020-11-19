@@ -13,18 +13,15 @@ int main(int argc, const char * argv[]) {
     std::cout << "2nd fuse" << '\n';
     tree.fuse(Tree2);
     tree.printTree();
-    std::cout << '\n';
-    std::cout << '\n';
-    std::cout << '\n';
 
-    Sommet *node = new Sommet{13};
-    Sommet *node2 = new Sommet{2};
-    Sommet *node3 = new Sommet{18};
-    Tree2.insert(node);
-    Tree2.insert(node2);
-    Tree2.insert(node3);
-
-    Tree2.printTree();
+    ArbreB bigcock{};
+    Sommet *swag = new Sommet{15};
+    Sommet *swag2 = new Sommet{5};
+    Sommet *swag3 = new Sommet{16};
+    bigcock.insert(swag);
+    bigcock.insert(swag2);
+    bigcock.insert(swag3);
+    bigcock.printTree();
     
     return 0;
 }

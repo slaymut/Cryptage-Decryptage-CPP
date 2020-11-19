@@ -5,7 +5,7 @@
 void ArbreB::scanTree(Sommet *startNode) const{
     //Show current node value
     if(startNode)
-        std::cout << "Value of current node: " << startNode->valueSommet << " of depth: " << startNode->getDepth() <<'\n';
+        std::cout << "Value of current node: " << startNode->getValue() << " of depth: " << startNode->getDepth() <<'\n';
 
     //Left first because of standart tree reading.
     if(startNode->getLeft()) {
@@ -29,13 +29,13 @@ Sommet *ArbreB::search(int val) const {
     //While current not nullptr
     while(current){
         //If node is found, return it
-        if(val == current->valueSommet) {
+        if(val == current->getValue()) {
             std::cout << "Found node of value : " << val << '\n';
             return current;
         }
 
         //Go Right if value is larger
-        if(val > current->valueSommet)
+        if(val > current->getValue())
             current = current->getRight();
         //Else go left
         else
@@ -58,10 +58,10 @@ void ArbreB::fuse(ArbreB &Tree){
     }
 
     //We allocate a new node and sum their values
-    auto *sumNode = new Sommet{root->valueSommet + Tree.root->valueSommet};
+    auto *sumNode = new Sommet{root->getValue() + Tree.root->getValue()};
 
     //To select which one to put on right and left
-    if(root->valueSommet >= Tree.root->valueSommet) {
+    if(root->getValue() >= Tree.root->getValue()) {
         sumNode->setRight(*root);
         sumNode->setLeft(*Tree.root);
     }
@@ -92,6 +92,7 @@ void ArbreB::decompose(ArbreB &Tree){
 
     Tree.root = root->getLeft();
 
+    //Override root value
     root = root->getRight();
 
 }
@@ -99,7 +100,7 @@ void ArbreB::decompose(ArbreB &Tree){
 //Modifies value of a node(target)
 void ArbreB::modifyNode(Sommet *target, const int value){
     //attributes a new value to the target node
-    target->valueSommet = value ;
+    target->setValue(value);
 }
 
 //Inserts a node in the tree.
@@ -117,7 +118,7 @@ void ArbreB::insert(Sommet *node){
 
     while(current){
         previous = current;
-        if(node->valueSommet < current->valueSommet) {
+        if(node->getValue() < current->getValue()) {
             current = current->getLeft();
             cpt++;
         }
@@ -127,7 +128,7 @@ void ArbreB::insert(Sommet *node){
         }
     }
 
-    if(node->valueSommet < previous->valueSommet)
+    if(node->getValue() < previous->getValue())
         previous->setLeft(*node);
     else
         previous->setRight(*node);
