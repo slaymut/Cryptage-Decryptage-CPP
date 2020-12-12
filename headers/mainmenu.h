@@ -1,5 +1,4 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#pragma once
 
 #include <QBoxLayout>
 #include <QFrame>
@@ -17,4 +16,3 @@ public:
     ~MainMenu();
 };
 
-#endif // MAINMENU_H

@@ -1,24 +1,19 @@
-#ifndef PRINTSOMMET_H
-#define PRINTSOMMET_H
+#pragma once
 
-#include <QWidget>
+#include <QFrame>
 #include <QPainter>
+#include <QFont>
+#include "arbreb.h"
 
 //  Widget pour afficher les traits de l'arbre
-class PrintLine : public QWidget
+class PrintLine : public QFrame
 {
 private:
-    QPoint P1;
-    QPoint P2;
+    void PrintSommets(Sommet* node, int currentX, int currentY);
+    void PrintLines_Rect(Sommet* node, int P1x, int P1y);
 public:
-    PrintLine(QWidget *parent = nullptr) : QWidget(parent){
-		}
-
-    void setPrint(int P1x, int P1y, int P2x, int P2y);
-
+    PrintLine();
     void paintEvent(QPaintEvent *event);
 
     ~PrintLine(){}
 };
-
-#endif // PRINTSOMMET_H

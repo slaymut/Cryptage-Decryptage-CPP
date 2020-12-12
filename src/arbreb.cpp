@@ -1,7 +1,7 @@
 #include "../headers/arbreb.h"
 #include <iostream>
 
-void ArbreB::scanTree(Sommet *startNode, MainWindow* w, int x, int y) const{
+/*void ArbreB::scanTree(Sommet *startNode, MainWindow* w, int x, int y) const{
     //Show current node value
     if(startNode){
         std::cout << "Value of current node: " << startNode->getValue() << " with depth: " << startNode->getDepth() << '\n';
@@ -19,7 +19,7 @@ void ArbreB::scanTree(Sommet *startNode, MainWindow* w, int x, int y) const{
         std::cout << "Going right." << '\n';
         scanTree(startNode->getRight(), w, x + 30*(maximumLevel - startNode->getDepth()), y+ 40 * (startNode->getDepth()+1));
     }
-}
+}*/
 
 int ArbreB::maxLevel(Sommet *node) const{
     if (!node)
@@ -37,13 +37,17 @@ int ArbreB::maxLevel(Sommet *node) const{
     }
 }
 
-void ArbreB::setNodesDepth(Sommet *node, int level){
+void ArbreB::setNodesDepth(Sommet *node, int level)const{
     // Base Case
     if (node == nullptr)
         return;
 
     // Set its depth
     node->setDepth(level);
+    if(node->getLeft())
+        node->getLeft()->setBinaire(0);
+    if(node->getRight())
+        node->getRight()->setBinaire(1);
 
     setNodesDepth(node->getLeft(), level+1);
     setNodesDepth(node->getRight(), level+1);
@@ -86,7 +90,7 @@ ArbreB ArbreB::merge(const ArbreB &Tree){
     }
 
     //We allocate a new node and sum their values
-    auto *sumNode = new Sommet{root->getValue() + Tree.root->getValue()};
+    auto *sumNode = new Sommet{root->getLetters() + Tree.root->getLetters(), root->getValue() + Tree.root->getValue()};
 
     //To select which one to put on right and left
     if(root->getValue() >= Tree.root->getValue()) {
@@ -155,21 +159,17 @@ void ArbreB::insert(Sommet *node){
 
 }
 
-void ArbreB::printTree(MainWindow *w, int x, int y) const{
+/*void ArbreB::printTree(MainWindow *w, int x, int y) const{
     if(root != nullptr) {
         std::cout << "\n" ;
         std::cout << "SCANNING THE TREE ..." << std::endl;
+        setNodesDepth(root,0);
         scanTree(root, w, x, y);
     }
     else
         std::cout << "There is no tree !" << '\n';
-}
+}*/
 
-Sommet* ArbreB::FindMin(Sommet* root)
-{
-	while(root->getLeft() != NULL) root = root->getLeft();
-	return root;
-}
 void ArbreB::m_delete(Sommet *target){
     Sommet *node = target;
     if (!node){
@@ -225,9 +225,7 @@ void ArbreB::m_delete(Sommet *target){
 * 
 void m_delete(Sommet *target){
     Sommet *node = target;
-
-    if (!node){
-        std::cout << "There is no node to delete !" << '\n';
+Parcontre, AVANT CAete !" << '\n';
         return;
     }
 

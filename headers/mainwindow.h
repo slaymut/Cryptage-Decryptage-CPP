@@ -1,10 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
+#pragma once
 
 #include "mainmenu.h"
 #include "printnames.h"
-#include <QGridLayout>
+#include "printsommet.h"
 #include <QScrollArea>
 #include <QWidget>
 #include <QPushButton>
@@ -18,17 +16,13 @@ class MainWindow : public QWidget
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow();
     ~MainWindow();
 
 private:
     QGridLayout *layout;
     MainMenu* wMenu;
     PrintNames *pNames;
-
-    /*
-    QPushButton *Quitter;    
-    QScrollArea* Zone_dessin;
-    */
+    QScrollArea *Zone_dessin;
+    PrintLine *lines;
 };
-#endif // MAINWINDOW_H

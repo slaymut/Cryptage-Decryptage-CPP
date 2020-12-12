@@ -1,8 +1,6 @@
-#ifndef ARBRE_B_HPP
-#define ARBRE_B_HPP
+#pragma once
 
 #include "sommet.h"
-#include "mainwindow.h"
 #include <QLabel>
 
 
@@ -10,7 +8,9 @@ class ArbreB{
 private:
     Sommet *root;
     //Scans the whole tree (and prints it)
-    void scanTree(Sommet *node, MainWindow *w, int x, int y) const;
+    //void scanTree(Sommet *node, MainWindow *w, int x, int y) const;
+    //Set depth of all nodes in the tree
+    
     //Get Tree max Level
     int maxLevel(Sommet *node) const;
     //Merge the value of two nodes to create a new one, linked to both previous nodes.
@@ -23,18 +23,27 @@ public:
         root = nullptr;
         root->setValue(value);
     }
-    ArbreB(Sommet *someNode) : root(someNode), maximumLevel(maxLevel(someNode)){}
-    //Copy constructor
     ArbreB(const ArbreB &arbre){
-        if(arbre.root)
+        if(arbre.root){
             root = new Sommet(*arbre.root);
+        }
+    }
+    ArbreB(Sommet *someNode) : root(someNode), maximumLevel(maxLevel(someNode)){}
+
+    static ArbreB ArbreGenerique;
+
+    ArbreB& operator=(const ArbreB& Tree){
+        if(root) delete root;
+        root = new Sommet(*Tree.getRoot());
+        maximumLevel = Tree.getTreeMaxLevel();
+
+        return *this;
     }
 
     //Methods 
-
     //Inserts a node in the tree.
     void insert(Sommet *node); 
-
+void setNodesDepth(Sommet *node, int level) const ;
     //Deletes a node in the tree 
      void m_delete(Sommet *target); 
 
@@ -45,13 +54,10 @@ public:
     Sommet* search(int val) const;
 
     //Prints the whole tree
-    void printTree(MainWindow *w, int x, int y) const;
+    //void printTree(MainWindow *w, int x, int y) const;
 
     //Modifies value of a node(target)
     void modifyNode(Sommet *target, int value);
-
-    //Function to find minimum in a tree. 
-    Sommet* FindMin(Sommet *node);
 
     //Operator + to return the result of two merged trees
     ArbreB operator+(const ArbreB &Tree){
@@ -65,15 +71,20 @@ public:
         return newArbre;
     }
 
-
     //Getters
     int getTreeMaxLevel(){return maximumLevel;}
+    int getTreeMaxLevel() const {return maximumLevel;}
     Sommet* getRoot(){return root;}
+    Sommet* getRoot() const {return root;}
+
+    void setRoot(Sommet *a_Node){
+        if(root) delete root;
+        root = new Sommet(*a_Node);
+    }
 
     void updateMaxDepth(){maximumLevel = maxLevel(root);}
 
-    //Set depth of all nodes in the tree
-    void setNodesDepth(Sommet *node, int level=0);
+   
 
     //Destructor
     ~ArbreB(){
@@ -82,6 +93,3 @@ public:
         }
     }
 };
-
-
-#endif
