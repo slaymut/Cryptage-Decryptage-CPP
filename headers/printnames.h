@@ -1,13 +1,8 @@
-#ifndef PRINTNAMES_H
-#define PRINTNAMES_H
-
 #pragma once
+
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QPushButton>
-#include <QWidget>
-#include <QApplication>
 
 
 //  Fenetre pour afficher les noms
@@ -17,7 +12,6 @@ class PrintNames : public QFrame
 private:
     QGridLayout *layout;
     QLabel *NameSurname;
-
 
 public:
     PrintNames(){
@@ -41,4 +35,3 @@ public:
 
 };
 
-#endif // PRINTNAMES_H
