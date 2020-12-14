@@ -10,15 +10,15 @@ private:
     int depth{};
     Sommet *left = nullptr;
     Sommet *right = nullptr;
-    int valueSommet;
+    double valueSommet;
     int binaire;
 
 public:
     
     //Constructors
     Sommet() = delete;
-    Sommet(const int value) : valueSommet(value){}
-    Sommet(std::string const &lettres, int const &value) : letters(lettres), valueSommet(value){}
+    Sommet(const double value) : valueSommet(value){}
+    Sommet(std::string const &lettres, double const &value) : letters(lettres), valueSommet(value){}
 
     Sommet(const Sommet& node){
         if (node.left != nullptr)
@@ -37,7 +37,7 @@ public:
     void setLeft(const Sommet& node);
     void setRight(const Sommet& node);
     void setDepth(int theDepth) {depth = theDepth;}
-    void setValue(int value) {valueSommet = value;}
+    void setValue(double value) {valueSommet = value;}
     void setBinaire(int value) {binaire = value;}
     void setLetters(std::string input) {letters = input;}
 
@@ -49,8 +49,8 @@ public:
     std::string getLetters()const { return letters; }
     int getDepth() { return depth; };
     
-    int getValue() { return valueSommet; }
-    int getValue() const { return valueSommet; }
+    double getValue() { return valueSommet; }
+    double getValue() const { return valueSommet; }
 
     Sommet *getRight(){return right;}
     Sommet *getLeft(){return left;}

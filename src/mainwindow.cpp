@@ -5,15 +5,19 @@ MainWindow::MainWindow()
     layout = new QGridLayout();
     setLayout(layout);
 
-
-    lines = new PrintLine();
-    lines->show();
+    wPrinter = new TreePrinter();
+    wPrinter->show();
     
     Zone_dessin = new QScrollArea();
-    Zone_dessin->setWidget(lines);
+    Zone_dessin->setWidget(wPrinter);
+    Zone_dessin->setStyleSheet("background-color: white;");
     Zone_dessin->show();
-    Zone_dessin->setMinimumSize(500,500);
+    Zone_dessin->setMinimumSize(650,500);
     layout->addWidget(Zone_dessin, 0, 0);
+
+    list_display = new Afficher_liste();
+    list_display->show();
+    layout->addWidget(list_display, 0, 1, Qt::AlignRight);
 
     display_code = new Afficher_code();
     display_code->show();
@@ -22,14 +26,16 @@ MainWindow::MainWindow()
     //Widget pour afficher les noms du groupe
     pNames = new PrintNames();
     pNames->show();
-    layout->addWidget(pNames, 2, 0, Qt::AlignBottom);
-    
-    /*wMenu = new MainMenu();
-    wMenu->setStyleSheet("background:rgb(75,0,130)");
-    wMenu->show();
-    layout->addWidget(wMenu, 0, 0);*/
+    layout->addWidget(pNames, 1, 1);
+    //setStyleSheet("background:rgb(22, 23, 74);");
+
+    setStyleSheet("background:rgb(9, 10, 52);");
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::textEntered(){
+
 }

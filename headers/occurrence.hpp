@@ -6,7 +6,7 @@
 
 class Occurrence{
 private:
-    std::vector<std::pair<char, int>> all_chars{};
+    std::vector<std::pair<char, double>> all_chars{};
     std::vector<std::pair<char, std::string>> char_codes{};
     ArbreB FullTree;
     std::string input_binary_code{};
@@ -19,6 +19,7 @@ private:
     void huffmanCoding(std::string string);
 
 public:
+    Occurrence() = delete;
     Occurrence(std::string string){
         getOccurrence(string);
         makeTree();
@@ -26,7 +27,7 @@ public:
     }
 
     ArbreB getArbre() {return FullTree;}
-    std::vector<std::pair<char, int>> getAll_Chars() {return all_chars;}
+    std::vector<std::pair<char, double>> getAll_Chars() {return all_chars;}
     std::vector<std::pair<char, std::string>> getCode_Chars(){ return char_codes;}
     std::string getBinaryCode(){return input_binary_code;}
 

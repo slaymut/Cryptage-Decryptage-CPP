@@ -1,17 +1,15 @@
 #pragma once
 #include <QObject>
 #include <iostream>
-#include "arbreb.h"
+#include "occurrence.hpp"
 
 class Context : public QObject{
 
     Q_OBJECT
 
 private:
-    ArbreB Tree{};
-    std::string codageHuff{};
     std::string string_to_code{};
-
+    Occurrence *Occu;
     Context(){}
 
 public:
@@ -25,22 +23,32 @@ public:
     Context(Context const&) = delete;
     Context& operator=(Context const&) = delete;
 
-    ArbreB getArbre() { return Tree; }
-    ArbreB getArbre() const { return Tree; }
-    void setArbre(ArbreB otherTree){
-        Tree = otherTree;
+    Occurrence* getInstanceOccu(){return Occu;}
+    Occurrence* getInstanceOccu() const {return Occu;}
+    void setOccurrence(std::string string){
+        Occu = new Occurrence(string);
+        emit arbreChanged();
     }
 
-    std::string getCodage() {return codageHuff;}
-    std::string getCodage() const {return codageHuff;}
-    void setCodageHuff(std::string code){
-        codageHuff = code;
-    }
+    ArbreB getArbre() { return Occu->getArbre(); }
+    ArbreB getArbre() const { return Occu->getArbre(); }
+
+    std::string getCodage() {return Occu->getBinaryCode();}
+    std::string getCodage() const {return Occu->getBinaryCode();}
 
     std::string getString() {return string_to_code;}
     std::string getString() const {return string_to_code;}
-    void setString(std::string to_code){
-        string_to_code = to_code;
+    void setString(std::string const& thisone){
+        string_to_code = thisone;
+        setOccurrence(string_to_code);
+        emit stringChanged();
     }
 
+    std::vector<std::pair<char, std::string>> getChar_Codes() {return Occu->getCode_Chars();}
+    std::vector<std::pair<char, std::string>> getChar_Codes() const {return Occu->getCode_Chars();}
+
+    ~Context(){}
+signals:
+    void stringChanged();
+    void arbreChanged();
 };

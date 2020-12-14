@@ -1,70 +1,55 @@
 #include "../headers/printsommet.h"
 #include <iostream>
 
-PrintLine::PrintLine(){
-    setFixedSize(1500, 600);
+TreePrinter::TreePrinter(){
+    setFixedSize(2000, 1500);
     arbre.setNodesDepth(arbre.getRoot(), 0);
     arbre.updateMaxDepth();
-    int distance = 30*(arbre.getTreeMaxLevel()*2);
-    PrintSommets(arbre.getRoot(), 750, 20, distance);
+    setStyleSheet("background:rgb(45, 47, 124);");
 }
 
-void PrintLine::PrintSommets(Sommet* node, int currentX, int currentY, int Separation1){
+void TreePrinter::PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation1){
     
-    if(node){
-        QLabel *label = new QLabel(this);
-        QFont f("Arial", 12, QFont::Bold);
-        label->setFont(f);
-        label->setNum(node->getValue());
-        label->setGeometry(currentX-5, currentY, 3*node->getValue() + 10, 15);
-
-        if (node->getLetters().length() > 1 ) node->setLetters("");
-        QLabel *L_Text = new QLabel(QString::fromStdString(node->getLetters()), this);
-        L_Text->setFont(f);
-        L_Text->setStyleSheet("QLabel { color : black; }");
-        L_Text->setGeometry(currentX+5, currentY, 10*node->getLetters().size(), 15);
-    }
-
-    int left_next_X = currentX - Separation1;
-    int right_next_X = currentX + Separation1;
-    int next_Y = currentY + 35 * (node->getDepth()+1);
-
-    if(node->getLeft()){
-        PrintSommets(node->getLeft(), left_next_X, next_Y, Separation1/2);
-    }
-
-    if(node->getRight()){
-        PrintSommets(node->getRight(), right_next_X, next_Y, Separation1/2);
-    }
-}
-
-void PrintLine::PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation1){
-
     QPainter paint(this);
-    QPen pen(Qt::red, 2, Qt::SolidLine);
+    QPen pen(Qt::white, 2, Qt::SolidLine);
     paint.setPen(pen);
     paint.setRenderHint(QPainter::Antialiasing, true);
     int left_next_X = P1x - Separation1;
     int right_next_X = P1x + Separation1;
-    int next_Y = P1y + 35 * (node->getDepth()+1);
+    int next_Y = P1y + 35 * ((node->getDepth()+2)/2 + 1);
+    int theY = (next_Y - P1y)/2;
 
     if(node){
-        paint.drawRect(P1x-10, P1y-2, 30, 20);
+        std::string number{std::to_string(node->getValue())};
+        number.erase(number.begin()+number.size()-5, number.end());
+        
+        paint.drawRect(P1x-10 - number.size(), P1y-2, 30 + number.size()*2, 20);
+        paint.setPen(QPen(Qt::white, 2, Qt::SolidLine));
+        if (node->getLeft() || node->getRight()){
+            node->setLetters("");
+            paint.drawText(P1x-number.size()*2 - 2, P1y+12, QString::fromStdString(number));
+        }
+        else{
+            paint.drawRect(P1x-10 - number.size(), P1y+18, 30 + number.size()*2 , 20);
+            paint.drawText(P1x, P1y+12, QString::fromStdString(node->getLetters()));
+            paint.drawText(P1x-number.size()*2 - 2, P1y+32, QString::fromStdString(number));
+        }
+        paint.setPen(QPen(Qt::white, 2, Qt::SolidLine));
     }
     if(node->getLeft() || node->getRight()){
         pen.setStyle(Qt::DotLine);
         paint.setPen(pen);
-        paint.drawLine(P1x+5, P1y+18, P1x+5, P1y + 30);
+        paint.drawLine(P1x+5, P1y+18, P1x+5, P1y + theY);
         pen.setStyle(Qt::SolidLine);
         paint.setPen(pen);
 
         if(node->getLeft()){
-            paint.drawLine(P1x+5, P1y+30, left_next_X + 5, P1y +30);
-            paint.drawLine(left_next_X + 5, P1y + 30, left_next_X + 5, next_Y - 4);
+            paint.drawLine(P1x+5, P1y+ theY, left_next_X + 5, P1y + theY);
+            paint.drawLine(left_next_X + 5, P1y + theY, left_next_X + 5, next_Y - 4);
         }
         if(node->getRight()){
-            paint.drawLine(P1x+5, P1y+30, right_next_X + 5, P1y +30);
-            paint.drawLine(right_next_X + 5, P1y + 30, right_next_X + 5, next_Y - 4);
+            paint.drawLine(P1x+5, P1y+theY, right_next_X + 5, P1y +theY);
+            paint.drawLine(right_next_X + 5, P1y + theY, right_next_X + 5, next_Y - 4);
         }
     }
 
@@ -77,9 +62,17 @@ void PrintLine::PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation1)
     }
 }
 
-void PrintLine::paintEvent(QPaintEvent *event){
-    Q_UNUSED(event);
+void TreePrinter::paintEvent(QPaintEvent *event){
     //on customise le pen&lignes et on trace les lignes
-    int distance = 30*(arbre.getTreeMaxLevel()*2);
-    PrintLines_Rect(arbre.getRoot(), 750, 20, distance);
+    int distance = 30*(arbre.getTreeMaxLevel()*2) + arbre.getTreeMaxLevel()*10;
+    PrintLines_Rect(arbre.getRoot(), 1000, 20, distance);
+
+    connect(&Context::getInstance(), SIGNAL(arbreChanged()), this, SLOT(arbreChanged()));
+}
+
+void TreePrinter::arbreChanged(){
+    arbre = Context::getInstance().getArbre();
+    arbre.setNodesDepth(arbre.getRoot(), 0);
+    arbre.updateMaxDepth();
+    repaint();
 }

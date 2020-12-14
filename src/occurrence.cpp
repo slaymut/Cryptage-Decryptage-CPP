@@ -1,20 +1,29 @@
 #include "../headers/occurrence.hpp"
 
 void Occurrence::getOccurrence(std::string input_string){
+    int nbrLetters = 0;
+
     for(int i{0}; i < input_string.size(); i++){
-        if(input_string.at(i) != ' '){
+        if((int)input_string.at(i) >= 65 && (int)input_string.at(i) <= 90 || 
+            (int)input_string.at(i) >= 97 && (int)input_string.at(i) <= 122){
             char currentChar = input_string.at(i);
             char vecChar;
             for(int j{0}; j < all_chars.size(); j++){
                 if(all_chars.at(j).first == currentChar){
                     vecChar = currentChar;
-                    all_chars[j].second += 1;
+                    all_chars[j].second += 1.0;
                 }
             }
             if(vecChar != currentChar){
-                all_chars.push_back(std::make_pair(currentChar, 1));
+                all_chars.push_back(std::make_pair(currentChar, 1.0));
             }
+            nbrLetters++;
         }
+    }
+
+    //Pourcentage
+    for(int i{0}; i < all_chars.size(); i++){
+        all_chars[i].second = all_chars[i].second * 100.0 / nbrLetters;
     }
 }
 
@@ -33,7 +42,6 @@ void Occurrence::makeTree(){
         Tree2 = findMin(vecteur2);
         FullTree = ArbreB{maintTree + Tree2};
         vecteur2.push_back(FullTree);
-        std::cout << "This Arbre: " << FullTree.getRoot()->getLetters() << " " << FullTree.getRoot()->getValue() << '\n'; 
     }
 }
 

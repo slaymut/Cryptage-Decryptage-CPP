@@ -34,7 +34,7 @@ void ArbreB::setNodesDepth(Sommet *node, int level)const{
 }
 
 
-Sommet *ArbreB::search(int val) const {
+Sommet *ArbreB::search(double val) const {
     //Take root
     Sommet *current = root;
     std::cout << "Searching node of value : " << val << '\n';

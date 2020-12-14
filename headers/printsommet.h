@@ -6,16 +6,21 @@
 #include "Context.hpp"
 
 //  Widget pour afficher les traits de l'arbre
-class PrintLine : public QFrame
+class TreePrinter : public QFrame
 {
+    Q_OBJECT
 private:
-    void PrintSommets(Sommet* node, int currentX, int currentY, int Separation1);
     void PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation1);
     ArbreB arbre = Context::getInstance().getArbre();
 public:
-    PrintLine();
+    TreePrinter();
 
     void paintEvent(QPaintEvent *event);
 
-    ~PrintLine(){}
+    ~TreePrinter(){}
+
+public slots:
+    void arbreChanged();
+
+signals:
 };

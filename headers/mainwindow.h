@@ -1,9 +1,9 @@
 #pragma once
 
-#include "mainmenu.h"
 #include "printnames.h"
 #include "printsommet.h"
 #include "affiche_code.hpp"
+#include "list_displayer.hpp"
 #include <QScrollArea>
 #include <QWidget>
 #include <QPushButton>
@@ -22,9 +22,14 @@ public:
 
 private:
     QGridLayout *layout;
-    MainMenu* wMenu;
     PrintNames *pNames;
     QScrollArea *Zone_dessin;
-    PrintLine *lines;
+    TreePrinter *wPrinter;
     Afficher_code *display_code;
+    Afficher_liste *list_display;
+
+public slots:
+    void textEntered();
+
+signals:
 };

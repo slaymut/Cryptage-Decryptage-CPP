@@ -14,18 +14,18 @@ set (SRCS
     src/sommet.cpp
     src/main.cpp
     src/mainwindow.cpp
-    src/mainmenu.cpp
     src/printsommet.cpp
     src/occurrence.cpp
     headers/arbreb.h
     headers/mainwindow.h
-    headers/mainmenu.h
     headers/printsommet.h
     headers/printnames.h
     headers/sommet.h
     headers/Context.hpp
     headers/affiche_code.hpp
+    headers/list_displayer.hpp
     headers/occurrence.hpp
+    headers/input.hpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRCS})

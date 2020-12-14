@@ -41,7 +41,7 @@ public:
     void decompose(ArbreB &Tree); 
 
     //Searches for a node in the tree
-    Sommet* search(int val) const;
+    Sommet* search(double val) const;
 
     //Modifies value of a node(target)
     void modifyNode(Sommet *target, int value);
