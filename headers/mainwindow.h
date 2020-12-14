@@ -10,7 +10,7 @@
 #include <QApplication>
 
 
-//  Fenetre principal de l'application
+// Main Window for our application
 
 class MainWindow : public QWidget
 {
@@ -28,8 +28,4 @@ private:
     Afficher_code *display_code;
     Afficher_liste *list_display;
 
-public slots:
-    void textEntered();
-
-signals:
 };

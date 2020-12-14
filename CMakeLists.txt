@@ -16,6 +16,8 @@ set (SRCS
     src/mainwindow.cpp
     src/printsommet.cpp
     src/occurrence.cpp
+    src/list_displayer.cpp
+    src/affiche_code.cpp
     headers/arbreb.h
     headers/mainwindow.h
     headers/printsommet.h

@@ -13,13 +13,14 @@ private:
     Context(){}
 
 public:
+    //To get current instance
     static Context& getInstance()
     {
         static Context singleton;
         return singleton;
     }
 
-    // Pour s'assurer que la classe reste en Singleton
+    // Ensures that the class stays in one instance
     Context(Context const&) = delete;
     Context& operator=(Context const&) = delete;
 
@@ -30,12 +31,15 @@ public:
         emit arbreChanged();
     }
 
+    //Get current Tree
     ArbreB getArbre() { return Occu->getArbre(); }
     ArbreB getArbre() const { return Occu->getArbre(); }
 
+    //Get current Binary Code
     std::string getCodage() {return Occu->getBinaryCode();}
     std::string getCodage() const {return Occu->getBinaryCode();}
 
+    //Get current string to code
     std::string getString() {return string_to_code;}
     std::string getString() const {return string_to_code;}
     void setString(std::string const& thisone){
@@ -44,11 +48,15 @@ public:
         emit stringChanged();
     }
 
+    //Get a vector of binary code representing each letter
     std::vector<std::pair<char, std::string>> getChar_Codes() {return Occu->getCode_Chars();}
     std::vector<std::pair<char, std::string>> getChar_Codes() const {return Occu->getCode_Chars();}
 
     ~Context(){}
 signals:
+    //If the string is modified
     void stringChanged();
+
+    //If the tree is modified
     void arbreChanged();
 };

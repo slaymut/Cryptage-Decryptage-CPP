@@ -8,7 +8,7 @@ TreePrinter::TreePrinter(){
     setStyleSheet("background:rgb(45, 47, 124);");
 }
 
-void TreePrinter::PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation1){
+void TreePrinter::PrintArbre(Sommet* node, int P1x, int P1y, int Separation1){
     
     QPainter paint(this);
     QPen pen(Qt::white, 2, Qt::SolidLine);
@@ -54,18 +54,17 @@ void TreePrinter::PrintLines_Rect(Sommet* node, int P1x, int P1y, int Separation
     }
 
     if(node->getLeft()){
-        PrintLines_Rect(node->getLeft(), left_next_X, next_Y, Separation1/2);
+        PrintArbre(node->getLeft(), left_next_X, next_Y, Separation1/2);
     }
 
     if(node->getRight()){
-        PrintLines_Rect(node->getRight(), right_next_X, next_Y, Separation1/2);
+        PrintArbre(node->getRight(), right_next_X, next_Y, Separation1/2);
     }
 }
 
 void TreePrinter::paintEvent(QPaintEvent *event){
-    //on customise le pen&lignes et on trace les lignes
     int distance = 30*(arbre.getTreeMaxLevel()*2) + arbre.getTreeMaxLevel()*10;
-    PrintLines_Rect(arbre.getRoot(), 1000, 20, distance);
+    PrintArbre(arbre.getRoot(), 1000, 20, distance);
 
     connect(&Context::getInstance(), SIGNAL(arbreChanged()), this, SLOT(arbreChanged()));
 }

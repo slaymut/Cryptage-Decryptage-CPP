@@ -83,7 +83,6 @@ ArbreB ArbreB::merge(const ArbreB &Tree){
         sumNode->setRight(*Tree.root);
         sumNode->setLeft(*root);
     }
-    //std::cout << "Node created !" << '\n';
     root = sumNode;
 
     return *this;

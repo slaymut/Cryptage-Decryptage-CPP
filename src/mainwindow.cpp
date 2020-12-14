@@ -23,19 +23,13 @@ MainWindow::MainWindow()
     display_code->show();
     layout->addWidget(display_code, 1, 0);
 
-    //Widget pour afficher les noms du groupe
     pNames = new PrintNames();
     pNames->show();
     layout->addWidget(pNames, 1, 1);
-    //setStyleSheet("background:rgb(22, 23, 74);");
 
     setStyleSheet("background:rgb(9, 10, 52);");
 }
 
 MainWindow::~MainWindow()
 {
-}
-
-void MainWindow::textEntered(){
-
 }

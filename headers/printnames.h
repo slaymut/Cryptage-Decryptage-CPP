@@ -5,7 +5,7 @@
 #include <QLabel>
 
 
-//  Fenetre pour afficher les noms
+// Frame to display both names
 
 class PrintNames : public QFrame
 {
@@ -40,6 +40,5 @@ public:
     ~PrintNames(){
 
     }
-
 };
 

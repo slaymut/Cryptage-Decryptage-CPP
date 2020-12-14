@@ -58,6 +58,7 @@ public:
         return newArbre;
     }
 
+    //Operator = to assign trees
     ArbreB& operator=(const ArbreB& Tree){
         if(root) delete root;
         root = new Sommet(*Tree.getRoot());
@@ -72,14 +73,8 @@ public:
     Sommet* getRoot(){return root;}
     Sommet* getRoot() const {return root;}
 
-    void setRoot(Sommet *a_Node){
-        if(root) delete root;
-        root = new Sommet(*a_Node);
-    }
-
+    //Update maximum depth
     void updateMaxDepth(){maximumLevel = maxLevel(root);}
-
-   
 
     //Destructor
     ~ArbreB(){
