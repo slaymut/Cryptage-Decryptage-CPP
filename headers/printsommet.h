@@ -1,24 +1,31 @@
-#ifndef PRINTSOMMET_H
-#define PRINTSOMMET_H
+#pragma once
 
-#include <QWidget>
+#include <QFrame>
 #include <QPainter>
+#include <QFont>
+#include "Context.hpp"
 
 //  Widget pour afficher les traits de l'arbre
-class PrintLine : public QWidget
+class TreePrinter : public QFrame
 {
+    Q_OBJECT
 private:
-    QPoint P1;
-    QPoint P2;
+    //Recursive method to draw to full Tree
+    void PrintArbre(Sommet* node, int P1x, int P1y, int Separation1);
+
+    //Current Tree
+    ArbreB arbre = Context::getInstance().getArbre();
 public:
-    PrintLine(QWidget *parent = nullptr) : QWidget(parent){
-		}
+    TreePrinter();
 
-    void setPrint(int P1x, int P1y, int P2x, int P2y);
-
+    //Method to paint
     void paintEvent(QPaintEvent *event);
 
-    ~PrintLine(){}
-};
+    ~TreePrinter(){}
 
-#endif // PRINTSOMMET_H
+public slots:
+    //Paints the new current Tree
+    void arbreChanged();
+
+signals:
+};

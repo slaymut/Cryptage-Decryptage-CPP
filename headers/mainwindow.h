@@ -1,34 +1,33 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
-
-#include "mainmenu.h"
 #include "printnames.h"
-#include <QGridLayout>
+#include "secondWindow.hpp"
+#include "printsommet.h"
+#include "affiche_code.hpp"
+#include "list_displayer.hpp"
 #include <QScrollArea>
-#include <QWidget>
-#include <QPushButton>
+#include <QMainWindow>
 #include <QApplication>
 
 
-//  Fenetre principal de l'application
+// Main Window for our application
 
-class MainWindow : public QWidget
-{
+class MainWindow : public QWidget {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow();
     ~MainWindow();
 
 private:
     QGridLayout *layout;
-    MainMenu* wMenu;
     PrintNames *pNames;
+    QScrollArea *Zone_dessin;
+    TreePrinter *wPrinter;
+    Afficher_code *display_code;
+    Afficher_liste *list_display;
+    QPushButton *toggle_decryptage;
+    SecondWindow *ndWindow;
 
-    /*
-    QPushButton *Quitter;    
-    QScrollArea* Zone_dessin;
-    */
+private slots:
+    void on_toggle_decrypt();
 };
-#endif // MAINWINDOW_H

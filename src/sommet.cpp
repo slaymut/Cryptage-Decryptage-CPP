@@ -1,7 +1,4 @@
 #include "../headers/sommet.h"
-#include "../headers/printsommet.h"
-
-#include <QLabel>
 
 void Sommet::setLeft(const Sommet &node){
     if(left)
@@ -13,37 +10,6 @@ void Sommet::setRight(const Sommet &node){
     if(right)
         delete right;
     right = new Sommet{node};
-}
-
-//Prints the tree nodes on the window
-void Sommet::print(MainWindow *wind, int x, int y, int maxDepth){
-    //Number of digits of valueSommet
-    int digits = 1;
-    int tmp = valueSommet;
-    while(tmp > 0){
-        tmp /= 10;
-        digits++;
-    }
-
-    //Print left node if it exists
-    if(this->left){
-        PrintLine *som = new PrintLine(wind);
-        som->resize(wind->width(), wind->height());
-        som->setPrint(x - 30*(maxDepth - this->getDepth())+(3+digits), y + 40 * (getDepth()+1), x + digits*3, y+17);
-    }
-
-    //Print left node if it exists
-    if(this->right){
-        PrintLine *som = new PrintLine(wind);
-        som->resize(wind->width(), wind->height());
-        som->setPrint(x + 30*(maxDepth - this->getDepth())+(3+digits), y + 40 * (getDepth()+1), x + digits*3, y+17);
-    }
-
-    //Print each node's value
-    QLabel *label = new QLabel(wind);
-    label->setStyleSheet("QLabel { color : white; }");
-    label->setNum(valueSommet);
-    label->setGeometry(x, y, 7*digits, 15);
 }
 
 Sommet::~Sommet(){
